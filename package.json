@@ -9,9 +9,15 @@
     "@types/react": "^16.9.2",
     "mobx": "^5.13.0",
     "parcel-bundler": "^1.12.3",
+    "rimraf": "^3.0.0",
     "typescript": "^3.5.3"
   },
   "peerDependencies": {
     "react": "^16.9.0"
+  },
+  "scripts": {
+    "clean": "rimraf lib ts_compiled",
+    "build": "npm run build_lib",
+    "build_lib": "tsc --project tsconfig.lib.json"
   }
 }
