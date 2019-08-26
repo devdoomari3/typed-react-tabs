@@ -1,0 +1,17 @@
+{
+  "name": "typed-tabs",
+  "version": "0.0.1",
+  "description": "Typescript Typed Tabs",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/react": "^16.9.2",
+    "mobx": "^5.13.0",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.5.3"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0"
+  }
+}
