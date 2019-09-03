@@ -25,8 +25,28 @@ export function defineTabs<CustomData = {}> () {
   }
 }
 
-export type Prop1 = {
-  prop1: boolean;
+export type DynamicTabsDefinition<CustomData = {}> = {
+  render(): React.ReactNode
+} & CustomData
+export function defineDynamicTabs<CustomData = {}> () {
+  return function __defineDynamicTabs(
+    args: DynamicTabsDefinition<CustomData>[],
+  ) {
+    return args
+  }
+}
+
+export function renderDynamicTabContent<CustomData = {}> () {
+  return function __renderDynamicTabContent(
+    dynamicTabsDefinition: DynamicTabsDefinition<CustomData>[],
+    tabController: ITabController<CustomData>,
+  ): React.ReactNode | undefined {
+    const currentTabNth = tabController.current
+    if (currentTabNth) {
+      return dynamicTabsDefinition[currentTabNth] && 
+        dynamicTabsDefinition[currentTabNth].render()
+    }
+  }
 }
 
 export interface ITabController<CustomData> {
