@@ -116,12 +116,36 @@ export function renderNav<CustomData> () {
     }
 }
 
+export function renderDynamicTabNav<CustomData> () {
+  return function __renderDynamicTabContent (
+    tabController: ITabController<CustomData>,
+    tabs: DynamicTabsDefinition<CustomData>[],
+    Renderer: React.ComponentType<{
+      tab: DynamicTabsDefinition<CustomData>;
+      nth: number;
+      tabController: ITabController<CustomData>;
+    }>
+  ) {
+    return tabs.map(
+      (tabItem, nth) => (
+        <Renderer
+          key={`${nth}tab`}
+          nth={nth}
+          tab={tabItem}
+          tabController={tabController}
+        />
+      ),
+    )
+  }
+}
+
 export function createTabAPI<CustomData= {}> () {
   return {
     defineTabs: defineTabs<CustomData>(),
     renderContent: renderContent<CustomData>(),
     defineDynamicTabs: defineDynamicTabs<CustomData>(),
     renderDynamicTabContent: renderDynamicTabContent<CustomData>(),
+    renderDynamicTabNav: renderDynamicTabNav<CustomData>(),
     getDefaultTabController (current?: number) { return new DefaultTabController<CustomData>(current) },
     renderNav: renderNav<CustomData>(),
   }
