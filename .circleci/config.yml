@@ -3,15 +3,12 @@ user.name: devdoomari-circlei
 jobs:
   push_dist:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:12-browsers
     steps:
       - checkout
       - run:
           name: Set git username/email
           command: 'mkdir -p ~/.git && git config --global user.email "devdoomari@gmail.com" && git config --global user.name "devdoomari.circleci"'
-      - run:
-          name: install-yarn-globally
-          command: 'sudo npm install -g yarn'
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -34,7 +31,7 @@ jobs:
           name: pull-merge-build-forcepush
           command: |
             if [[ $CIRCLE_BRANCH == "dist_"* ]] ||
-              [[ $CIRCLE_BRANCH == "dist-"* ]] || 
+              [[ $CIRCLE_BRANCH == "dist-"* ]] ||
               [[ $CIRCLE_BRANCH == "master" ]]; then
               # due to circle CI bug not observing [ci skip]
               exit

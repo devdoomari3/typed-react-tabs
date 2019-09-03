@@ -1,4 +1,4 @@
-    
+
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -15,7 +15,7 @@
     "rootDir": "src",
     "module": "commonjs",
     "lib": [
-      "es2015",
+      "es2018"
     ],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
