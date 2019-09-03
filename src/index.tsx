@@ -41,11 +41,9 @@ export function renderDynamicTabContent<CustomData = {}> () {
     dynamicTabsDefinition: DynamicTabsDefinition<CustomData>[],
     tabController: ITabController<CustomData>,
   ): React.ReactNode | undefined {
-    const currentTabNth = tabController.current
-    if (currentTabNth) {
-      return dynamicTabsDefinition[currentTabNth] && 
-        dynamicTabsDefinition[currentTabNth].render()
-    }
+    const currentTabDef = dynamicTabsDefinition[tabController.current!]
+    return currentTabDef && currentTabDef.render()
+    
   }
 }
 
