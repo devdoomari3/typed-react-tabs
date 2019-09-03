@@ -120,6 +120,8 @@ export function createTabAPI<CustomData= {}> () {
   return {
     defineTabs: defineTabs<CustomData>(),
     renderContent: renderContent<CustomData>(),
+    defineDynamicTabs: defineDynamicTabs<CustomData>(),
+    renderDynamicTabContent: renderDynamicTabContent<CustomData>(),
     getDefaultTabController (current?: number) { return new DefaultTabController<CustomData>(current) },
     renderNav: renderNav<CustomData>(),
   }
