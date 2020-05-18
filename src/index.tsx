@@ -1,78 +1,19 @@
-// TODO: move to separate repo...
-import {
-  action, observable,
-} from 'mobx'
 import * as React from 'react'
-export type TabItemType<PropsType> = {
-  RenderContent: React.ComponentType<PropsType & any>;
-}
+import {
+  DynamicTabsDefinition,
+  defineDynamicTabs,
+  renderDynamicTabContent,
+} from './DynamicTabs'
+import {
+  TabsDefinitionType,
+  TabItemType,
+  defineTabs,
+} from './TabDefinitions'
+import {
+  ITabController,
+  DefaultTabController,
+} from './TabController'
 
-export type TabsDefinitionType<CustomData, PropsType> = {
-  tabs: (TabItemType<React.PropsWithChildren<PropsType>> & CustomData)[];
-}
-
-export function defineTabs<CustomData = {}> () {
-  return function __defineTabs<PropsType> (
-    tabs: [
-      (TabItemType<PropsType> & CustomData),
-      (TabItemType<PropsType> & CustomData),
-      ...ReadonlyArray<(TabItemType<PropsType> & CustomData)>
-    ], // tabs: (TabItemType<PropsType> & CustomData)[]
-  ): TabsDefinitionType<CustomData, PropsType> {
-    return {
-      tabs,
-    }
-  }
-}
-
-export type DynamicTabsDefinition<CustomData = {}> = {
-  render(): React.ReactNode
-} & CustomData
-export function defineDynamicTabs<CustomData = {}> () {
-  return function __defineDynamicTabs(
-    args: DynamicTabsDefinition<CustomData>[],
-  ) {
-    return args
-  }
-}
-
-export function renderDynamicTabContent<CustomData = {}> () {
-  return function __renderDynamicTabContent(
-    dynamicTabsDefinition: DynamicTabsDefinition<CustomData>[],
-    tabController: ITabController<CustomData>,
-  ): React.ReactNode | undefined {
-    const currentTabDef = dynamicTabsDefinition[tabController.current!]
-    return currentTabDef && currentTabDef.render()
-    
-  }
-}
-
-export interface ITabController<CustomData> {
-  current?: number;
-  setCurrent(current: number): void;
-  onTabsChange(
-    oldTabs: TabsDefinitionType<CustomData, any>,
-    newTabs: TabsDefinitionType<CustomData, any>,
-  ): void;
-}
-export class DefaultTabController<CustomData> implements ITabController<CustomData> {
-  @observable
-  current?: number
-  constructor (current?: number) {
-    this.current = current
-  }
-
-  @action
-  onTabsChange (oldTabs: TabsDefinitionType<CustomData, any>, newTabs: TabsDefinitionType<CustomData, any>): void {
-    if (this.current && this.current >= newTabs.tabs.length) {
-      this.current = newTabs.tabs.length - 1
-    }
-  }
-  @action
-  setCurrent (current: number): void {
-    this.current = current
-  }
-}
 
 export function renderContent<CustomData> () {
   return function __renderContent<PropsType> (
@@ -144,14 +85,10 @@ export function createTabAPI<CustomData= {}> () {
     defineDynamicTabs: defineDynamicTabs<CustomData>(),
     renderDynamicTabContent: renderDynamicTabContent<CustomData>(),
     renderDynamicTabNav: renderDynamicTabNav<CustomData>(),
-    getDefaultTabController (current?: number) { return new DefaultTabController<CustomData>(current) },
+    getDefaultTabController (current?: number) {
+      return new DefaultTabController<CustomData>(current)
+    },
     renderNav: renderNav<CustomData>(),
   }
 }
 
-export type UnpackTabsDefinition<
-  T extends TabsDefinitionType<any, any>
-> = T extends TabsDefinitionType<infer CustomData, infer PropsType> ? {
-  CustomData: CustomData;
-  PropsType: PropsType;
-} : never
