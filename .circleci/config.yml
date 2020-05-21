@@ -39,7 +39,6 @@ jobs:
             if [ "$CIRCLE_BRANCH" = "develop" ]
             then
               git checkout master
-            fi
             else
               git checkout -b $'dist-'"$CIRCLE_BRANCH"
             fi
