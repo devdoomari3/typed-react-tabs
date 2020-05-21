@@ -35,7 +35,8 @@ jobs:
               [[ $CIRCLE_BRANCH == "master" ]]; then
               # due to circle CI bug not observing [ci skip]
               exit
-            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            fi
+            if [ "$CIRCLE_BRANCH" = "develop" ]
             then
               git checkout master
             fi
